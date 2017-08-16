@@ -3,6 +3,7 @@ import os
 import sys
 import imp
 import argparse
+from subprocess import check_call
 
 from migrate.versioning import api
 from subprocess import check_call, check_output
@@ -119,6 +120,19 @@ class TaskBase():
                            app.config['SQLALCHEMY_MIGRATE_REPO'])
         print('Current database version: ' + str(v))
 
+    def mkdir_p(self, directory):
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+    def install_deps(self):
+        directory = app.config['STATIC_DIR']
+        self.mkdir_p(directory)
+        check_call([
+            "npm", "install", "--prefix", directory, "angular@1.5.8",
+            "jquery@3.1.1", "angular-route@1.5.8", "angular-resource@1.5.8",
+            "bootstrap"])
+
+
 class Tasks(TaskBase):
     """Tasks meant to be callable from the cli. """
 
@@ -138,6 +152,17 @@ class Tasks(TaskBase):
         }
         if action not in switch.keys():
             msg = "'{}' is not a recognised db action. Actions are: {}"
+            raise Exception(msg.format(action, ", ".join(switch.keys())))
+        switch.get(action)()
+
+    def deps(self, action):
+        """ Dependency actions. """
+
+        switch = {
+            "install": self.install_deps,
+        }
+        if action not in switch.keys():
+            msg = "'{}' is not a recognised deps action. Actions are: {}"
             raise Exception(msg.format(action, ", ".join(switch.keys())))
         switch.get(action)()
 
