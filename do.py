@@ -110,8 +110,9 @@ class TaskBase():
 class Tasks(TaskBase):
     """Tasks meant to be callable from the cli. """
 
-    def run(self):
+    def run(self, debug_mode_on=True):
         """ Run flask server. """
+        os.environ["FLASK_DEBUG"] = '1' if debug_mode_on else '0'
         app.run(debug=True)
 
     def db(self, action):

@@ -79,6 +79,7 @@ def survey():
         title='Home',
         form=form)
 
+
 @app.route('/admin')
 def admin():
     ages = []
