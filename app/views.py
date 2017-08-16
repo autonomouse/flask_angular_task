@@ -97,8 +97,10 @@ def admin():
             user.favourite_book = book.title
             if book.author != "":
                 user.favourite_book += "(" + book.author + ")"
-    summary = {'age': statistics.mean(ages),
-               'age_stdev': statistics.stdev(ages),
+    mean_age = statistics.mean(ages) if ages else None
+    stdev_age = statistics.stdev(ages) if ages else None
+    summary = {'age': mean_age,
+               'age_stdev': stdev_age,
                'gender': Counter(sexes),
                'colors': Counter(colors).most_common(3)}
     return render_template(
