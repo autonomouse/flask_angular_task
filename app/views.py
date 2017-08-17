@@ -15,6 +15,7 @@ from flask_restful import Resource
 def index():
     return redirect('/survey')
 
+
 @app.route('/survey', methods=['GET', 'POST'])
 def survey():
     form = SurveyForm()
@@ -35,7 +36,7 @@ def survey():
 
         # Step 2:
         query = db.session.query(models.User).filter(
-            models.User.email==form.email.data)
+            models.User.email == form.email.data)
         user = query.first()
         user.age = form.age.choices[form.age.data][1]
         user.about_me = form.about_me.data
@@ -43,7 +44,7 @@ def survey():
 
         # Step 3:
         query = db.session.query(models.User).filter(
-            models.User.email==form.email.data)
+            models.User.email == form.email.data)
         user = query.first()
         user.address = form.address.data
         user.gender = int(form.gender.data)
@@ -51,7 +52,7 @@ def survey():
 
         # Step 4:
         query = db.session.query(models.User).filter(
-            models.User.email==form.email.data)
+            models.User.email == form.email.data)
         user = query.first()
 
         params = {'title': form.book_title.data,
@@ -92,7 +93,7 @@ def admin():
         sexes.append(user.gender.value)
         colors.extend([str(col.color) for col in user.colors])
         books = db.session.query(models.Favbook).filter(
-            models.Favbook.id==user.favbook_id)
+            models.Favbook.id == user.favbook_id)
         if books.count():
             book = books.first()
             user.favourite_book = book.title
@@ -115,9 +116,9 @@ def output_colors(colors):
     output = []
     for color in colors:
         color.color = str(color.color)
-        # alt: color.color = str(color.color.hex)
         output.append(color)
     return output
+
 
 def output_users(users):
     output = []
@@ -141,6 +142,7 @@ class UserView(Resource):
             user.book = db.session.query(models.Favbook).filter_by(
                 id=user.favbook_id).first()
         return serializers.UserSerializer(users, many=True).data
+
 
 class FavbookView(Resource):
     def get(self):

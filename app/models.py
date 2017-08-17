@@ -1,9 +1,9 @@
-import enum
 from app import db
 from sqlalchemy_utils import EmailType
 from sqlalchemy_utils.types import color, choice
 
-user_colors = db.Table('user_colors',
+user_colors = db.Table(
+    'user_colors',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('favcolor_id', db.Integer, db.ForeignKey('favcolor.id'))
 )
@@ -19,6 +19,7 @@ color_choices = [('0', 'Red'),
                  ('4', 'Blue'),
                  ('5', 'Violet')]
 
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +31,7 @@ class User(db.Model):
     address = db.Column(db.Text, default='')
     favbook_id = db.Column(db.Integer, db.ForeignKey('favbook.id'))
     colors = db.relationship('Favcolor', secondary=user_colors,
-        backref=db.backref('users', lazy='dynamic'))
+                             backref=db.backref('users', lazy='dynamic'))
     survey_completed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
@@ -44,7 +45,6 @@ class Favcolor(db.Model):
 
     def __repr__(self):
         return '<Color %r>' % (self.color.hex)
-        #return '<Color %r>' % (self.id)
 
 
 class Favbook(db.Model):
