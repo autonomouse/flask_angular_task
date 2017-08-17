@@ -110,13 +110,44 @@ def admin():
         users=users,
         summary=summary)
 
+
+def output_colors(colors):
+    output = []
+    for color in colors:
+        color.color = str(color.color)
+        # alt: color.color = str(color.color.hex)
+        output.append(color)
+    return output
+
+def output_users(users):
+    output = []
+    for user in users:
+        user.gender = user.gender.value
+        user.colors = output_colors(user.colors)
+        output.append(user)
+    return output
+
+
+class FavcolorView(Resource):
+    def get(self):
+        colors = output_colors(models.Favcolor.query.all())
+        return serializers.FavcolorSerializer(colors, many=True).data
+
+
 class UserView(Resource):
     def get(self):
-        users = []
-        for user in models.User.query.all():
-            user.gender = user.gender.value
-            user.colors = []
-            users.append(user)
+        users = output_users(models.User.query.all())
+        for user in users:
+            user.book = db.session.query(models.Favbook).filter_by(
+                id=user.favbook_id).first()
         return serializers.UserSerializer(users, many=True).data
 
+class FavbookView(Resource):
+    def get(self):
+        books = models.Favbook.query.all()
+        return serializers.FavbookSerializer(books, many=True).data
+
+
+api.add_resource(FavcolorView, '/api/v1/colors')
 api.add_resource(UserView, '/api/v1/users')
+api.add_resource(FavbookView, '/api/v1/books')

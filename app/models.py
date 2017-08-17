@@ -44,6 +44,7 @@ class Favcolor(db.Model):
 
     def __repr__(self):
         return '<Color %r>' % (self.color.hex)
+        #return '<Color %r>' % (self.id)
 
 
 class Favbook(db.Model):
