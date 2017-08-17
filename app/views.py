@@ -81,7 +81,11 @@ def survey():
         title='Home',
         form=form)
 
+@app.route('/admin')
+def admin():
+    return render_template("index.html")
 
+'''
 @app.route('/admin')
 def admin():
     ages = []
@@ -110,6 +114,7 @@ def admin():
         title='Home',
         users=users,
         summary=summary)
+'''
 
 
 def output_colors(colors):
