@@ -17,6 +17,7 @@ db = SQLAlchemy(app)
 api = Api(app)
 
 
+# allow cross-origin resource sharing:
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')

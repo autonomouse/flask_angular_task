@@ -3,4 +3,10 @@ app/__pycache__/
 Python Developer Task.txt
 tmp
 app/static/node_modules/
-
+logs/*
+!.gitkeep
+node_modules/
+bower_components/
+tmp
+.DS_Store
+.idea

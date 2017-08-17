@@ -13,6 +13,7 @@ class Config(object):
         os.path.dirname(__file__), 'db_repository')
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL', "postgresql:///hjtask")
+    STATIC_DIR = './app/static'
 
 
 class DevelopmentConfig(Config):
