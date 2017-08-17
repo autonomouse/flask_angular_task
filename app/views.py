@@ -4,9 +4,10 @@ from collections import Counter
 from sqlalchemy.exc import IntegrityError
 from flask import render_template, flash, redirect
 
-from app import app
+from app import app, api
 from .forms import SurveyForm
-from . import models, db
+from . import models, db, serializers
+from flask_restful import Resource
 
 
 @app.route('/')
@@ -45,7 +46,7 @@ def survey():
             models.User.email==form.email.data)
         user = query.first()
         user.address = form.address.data
-        user.gender = form.gender.choices[int(form.gender.data)][1]
+        user.gender = int(form.gender.data)
         db.session.commit()
 
         # Step 4:
@@ -88,7 +89,7 @@ def admin():
     users = models.User.query.all()
     for user in users:
         ages.append(int(user.age))
-        sexes.append(user.gender)
+        sexes.append(user.gender.value)
         colors.extend([str(col.color) for col in user.colors])
         books = db.session.query(models.Favbook).filter(
             models.Favbook.id==user.favbook_id)
@@ -98,7 +99,7 @@ def admin():
             if book.author != "":
                 user.favourite_book += "(" + book.author + ")"
     mean_age = statistics.mean(ages) if ages else None
-    stdev_age = statistics.stdev(ages) if ages else None
+    stdev_age = statistics.stdev(ages) if len(ages) > 2 else 0
     summary = {'age': mean_age,
                'age_stdev': stdev_age,
                'gender': Counter(sexes),
@@ -108,3 +109,14 @@ def admin():
         title='Home',
         users=users,
         summary=summary)
+
+class UserView(Resource):
+    def get(self):
+        users = []
+        for user in models.User.query.all():
+            user.gender = user.gender.value
+            user.colors = []
+            users.append(user)
+        return serializers.UserSerializer(users, many=True).data
+
+api.add_resource(UserView, '/api/v1/users')

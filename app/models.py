@@ -1,14 +1,12 @@
 import enum
 from app import db
-from colour import Color
 from sqlalchemy_utils import EmailType
-from sqlalchemy_utils.types.color import ColorType
+from sqlalchemy_utils.types import color, choice
 
 user_colors = db.Table('user_colors',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('favcolor_id', db.Integer, db.ForeignKey('favcolor.id'))
 )
-from colour import Color
 
 
 age_start = 18
@@ -25,7 +23,7 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), index=True, unique=True)
-    gender = db.Column(db.Integer)
+    gender = db.Column(choice.ChoiceType(gender_choices))
     age = db.Column(db.Integer)
     email = db.Column(EmailType, unique=True)
     about_me = db.Column(db.Text, default='')
@@ -42,7 +40,7 @@ class User(db.Model):
 class Favcolor(db.Model):
     __tablename__ = 'favcolor'
     id = db.Column(db.Integer, primary_key=True)
-    color = db.Column(ColorType)
+    color = db.Column(color.ColorType)
 
     def __repr__(self):
         return '<Color %r>' % (self.color.hex)
