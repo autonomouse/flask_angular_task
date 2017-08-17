@@ -12,7 +12,7 @@ class Config(object):
     SQLALCHEMY_MIGRATE_REPO = os.path.join(
         os.path.dirname(__file__), 'db_repository')
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DATABASE_URL', "postgresql:///hotjar")
+        'DATABASE_URL', "postgresql:///hjtask")
 
 
 class DevelopmentConfig(Config):
