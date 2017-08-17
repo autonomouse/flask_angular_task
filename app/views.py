@@ -4,15 +4,17 @@ from collections import Counter
 from sqlalchemy.exc import IntegrityError
 from flask import render_template, flash, redirect
 
-from app import app
+from app import app, api
 from .forms import SurveyForm
-from . import models, db
+from . import models, db, serializers
+from flask_restful import Resource
 
 
 @app.route('/')
 @app.route('/index')
 def index():
     return redirect('/survey')
+
 
 @app.route('/survey', methods=['GET', 'POST'])
 def survey():
@@ -34,7 +36,7 @@ def survey():
 
         # Step 2:
         query = db.session.query(models.User).filter(
-            models.User.email==form.email.data)
+            models.User.email == form.email.data)
         user = query.first()
         user.age = form.age.choices[form.age.data][1]
         user.about_me = form.about_me.data
@@ -42,15 +44,15 @@ def survey():
 
         # Step 3:
         query = db.session.query(models.User).filter(
-            models.User.email==form.email.data)
+            models.User.email == form.email.data)
         user = query.first()
         user.address = form.address.data
-        user.gender = form.gender.choices[int(form.gender.data)][1]
+        user.gender = int(form.gender.data)
         db.session.commit()
 
         # Step 4:
         query = db.session.query(models.User).filter(
-            models.User.email==form.email.data)
+            models.User.email == form.email.data)
         user = query.first()
 
         params = {'title': form.book_title.data,
@@ -88,17 +90,17 @@ def admin():
     users = models.User.query.all()
     for user in users:
         ages.append(int(user.age))
-        sexes.append(user.gender)
+        sexes.append(user.gender.value)
         colors.extend([str(col.color) for col in user.colors])
         books = db.session.query(models.Favbook).filter(
-            models.Favbook.id==user.favbook_id)
+            models.Favbook.id == user.favbook_id)
         if books.count():
             book = books.first()
             user.favourite_book = book.title
             if book.author != "":
                 user.favourite_book += "(" + book.author + ")"
     mean_age = statistics.mean(ages) if ages else None
-    stdev_age = statistics.stdev(ages) if ages else None
+    stdev_age = statistics.stdev(ages) if len(ages) > 2 else 0
     summary = {'age': mean_age,
                'age_stdev': stdev_age,
                'gender': Counter(sexes),
@@ -108,3 +110,46 @@ def admin():
         title='Home',
         users=users,
         summary=summary)
+
+
+def output_colors(colors):
+    output = []
+    for color in colors:
+        color.color = str(color.color)
+        output.append(color)
+    return output
+
+
+def output_users(users):
+    output = []
+    for user in users:
+        user.gender = user.gender.value
+        user.colors = output_colors(user.colors)
+        output.append(user)
+    return output
+
+
+class FavcolorView(Resource):
+    def get(self):
+        colors = output_colors(models.Favcolor.query.all())
+        return serializers.FavcolorSerializer(colors, many=True).data
+
+
+class UserView(Resource):
+    def get(self):
+        users = output_users(models.User.query.all())
+        for user in users:
+            user.book = db.session.query(models.Favbook).filter_by(
+                id=user.favbook_id).first()
+        return serializers.UserSerializer(users, many=True).data
+
+
+class FavbookView(Resource):
+    def get(self):
+        books = models.Favbook.query.all()
+        return serializers.FavbookSerializer(books, many=True).data
+
+
+api.add_resource(FavcolorView, '/api/v1/colors')
+api.add_resource(UserView, '/api/v1/users')
+api.add_resource(FavbookView, '/api/v1/books')

@@ -3,13 +3,11 @@ import os
 import sys
 import imp
 import argparse
-from subprocess import check_call
 
-from migrate.versioning import api
 from subprocess import check_call, check_output
 
+from migrate.versioning import api
 os.environ["APP_SETTINGS"] = "config.DevelopmentConfig"
-
 from app import app, db
 
 
