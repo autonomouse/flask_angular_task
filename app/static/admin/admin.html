@@ -1,3 +1,4 @@
+
 <div class="jumbotron">
     <h1>Admin</h1>
     <table class="table">
@@ -15,20 +16,30 @@
         </tr>
     </thead>
     <tbody>
-        <tr data-ng-repeat="user in data.users.objects">
-            <td>{$ user.name $}</td>
-            <td>{$ user.email $}</td>
-            <td>{$ user.age $}</td>
-            <td>{$ user.about_me $}</td>
-            <td>{$ user.address $}</td>
-            <td>{$ user.gender.value $}</td>
-            <td>{$ user.favourite_book $}</td>
-            <td>{$ user.colors|join(', ', attribute='color') $}</td>
-            <td>{$ user.survey_completed $}</td>
+        <tr ng-repeat="user in users">
+            <td>{$user.name $}</td>
+            <td>{$user.email $}</td>
+            <td>{$user.age $}</td>
+            <td>{$user.about_me $}</td>
+            <td>{$user.address $}</td>
+            <td>{$user.gender.value $}</td>
+            <td>{$user.favourite_book $}</td>
+            <td>{$user.colors|join(', ', attribute='color') $}</td>
+            <td>{$user.survey_completed $}</td>
         </tr>
     </tbody>
     </table>
 </div>
+
+{$ user $}
+
+<br/>
+
+
+{$ users $}
+
+
+
 
 <div class="jumbotron">
     <h2>Summary of Responses</h2>

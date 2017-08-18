@@ -1,5 +1,3 @@
-var hjapp = angular.module('HjApp.admin', ['ngRoute', 'UserService'])
-
 hjapp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
@@ -10,7 +8,7 @@ hjapp.config(['$routeProvider', function($routeProvider) {
 }]);
 
 hjapp.controller('controller', [
-    '$scope', function($scope) {
-        $scope.users = UserService.query();
+    '$scope', 'UserService', function($scope, UserService) {
+        $scope.user = UserService.query();
     }
 ]);
