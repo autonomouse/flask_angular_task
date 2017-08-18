@@ -1,5 +1,71 @@
 <div class="jumbotron">
-   <h1>AngularJS Web App</h1>
-   <p class="lead">AngularJS App Powered By Python Flask{$ message $}{$ message $}</p>
-   <p><a class="btn btn-lg btn-success" href="#" role="button">{$ message $}</a></p>
+    <h1>Admin</h1>
+    <table class="table">
+    <thead>
+        <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>About me</th>
+        <th>Address</th>
+        <th>Gender</th>
+        <th>Favourite Book</th>
+        <th>Favourite Colors</th>
+        <th>Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-listing__row" data-ng-repeat="bug in data.bugs.objects | orderBy:data.tabs.bugs.predicate:data.tabs.bugs.reverse">
+            <td class="table-listing__cell">
+                <a data-ng-href="#/results/bug/{$ bug.bugtrackerbug.bug_number $}" title="{$ bug.bugtrackerbug.bug_number $}">
+                    {$ bug.bugtrackerbug.bug_number $}
+                </a>
+            </td>
+            <td class="table-listing__cell">
+                <span data-ng-repeat="product in bug.bugtrackerbug.project.associated_products">{$ $first ? '' : $last ? ' and ' : ', ' $}{$ product $}</span>
+            </td>
+            <td class="table-listing__cell">{$ bug.summary $}</td>
+            <td class="table-listing__cell">{$ bug.occurrence_count $}</td>
+            <td class="table-listing__cell">{$ data.humaniseDate(bug.last_seen) $}</td>
+        </tr>
+        {% for user in users %}
+        <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.about_me }}</td>
+        <td>{{ user.address }}</td>
+        <td>{{ user.gender.value }}</td>
+        <td>{{ user.favourite_book }}</td>
+        <td>{{ user.colors|join(', ', attribute='color') }}</td>
+        <td>{{ user.survey_completed }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+
+{$ message $}
+
+
+
+
+<div class="jumbotron">
+    <h2>Summary of Responses</h2>
+    <table class="table">
+    <thead>
+        <tr>
+        <th>Average Age</th>
+        <th>Gender Ratio</th>
+        <th>Top 3 Colors</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>{{ summary.age }}</td>
+        <td>{{ summary.gender }}</td>
+        <td>{{ summary.colors }}</td>
+        </tr>
+    </tbody>
+    </table>
 </div>

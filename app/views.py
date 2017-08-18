@@ -119,42 +119,59 @@ def admin():
 
 def output_colors(colors):
     output = []
-    for color in colors:
-        color.color = str(color.color)
-        output.append(color)
+    if colors != [None]:
+        for color in colors:
+            color.color = str(color.color)
+            output.append(color)
     return output
 
 
 def output_users(users):
     output = []
-    for user in users:
-        user.gender = user.gender.value
-        user.colors = output_colors(user.colors)
-        output.append(user)
+    if users != [None]:
+        for user in users:
+            user.gender = user.gender.value
+            user.colors = output_colors(user.colors)
+            output.append(user)
     return output
 
 
 class FavcolorView(Resource):
-    def get(self):
-        colors = output_colors(models.Favcolor.query.all())
+    def get(self, id=None):
+        if not id:
+            colors = output_colors(models.Favcolor.query.all())
+        else:
+            color = [db.session.query(models.Favcolor).get(id)]
+            colors = output_colors(color)
         return serializers.FavcolorSerializer(colors, many=True).data
 
 
 class UserView(Resource):
-    def get(self):
-        users = output_users(models.User.query.all())
+    def get(self, id=None):
+        if not id:
+            users = output_users(models.User.query.all())
+        else:
+            user = [db.session.query(models.User).get(id)]
+            users = output_users(user)
+        if not users:
+            return
         for user in users:
-            user.book = db.session.query(models.Favbook).filter_by(
-                id=user.favbook_id).first()
+            user.book = db.session.query(models.Favbook).filter_by(id=user.favbook_id).first()
         return serializers.UserSerializer(users, many=True).data
 
 
 class FavbookView(Resource):
-    def get(self):
-        books = models.Favbook.query.all()
+    def get(self, id=None):
+        if not id:
+            books = models.Favbook.query.all()
+        else:
+            books = [db.session.query(models.Favbook).get(id)]
         return serializers.FavbookSerializer(books, many=True).data
 
 
-api.add_resource(FavcolorView, '/api/v1/colors')
-api.add_resource(UserView, '/api/v1/users')
-api.add_resource(FavbookView, '/api/v1/books')
+api.add_resource(FavcolorView, '/api/v1/colors', '/api/v1/colors/<string:id>',
+                 strict_slashes=False)
+api.add_resource(UserView, '/api/v1/users', '/api/v1/users/<string:id>',
+                 strict_slashes=False)
+api.add_resource(FavbookView, '/api/v1/books', '/api/v1/books/<string:id>',
+                 strict_slashes=False)

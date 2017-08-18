@@ -2,23 +2,15 @@ var hjapp = angular.module('HjApp.admin', ['ngRoute'])
 
 hjapp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-        .when('/survey', {
+        .when('/:user', {
             templateUrl: 'static/admin/admin.html',
             controller: 'controller',
             controllerAs:'controller'
         })
-        .when('/admin', {
-            templateUrl: 'static/admin/admin.html',
-            controller: 'controller',
-            controllerAs:'controller'
-        })
-        .otherwise({
-            redirectTo: '/survey'
-        });
 }]);
 
-hjapp.controller('controller', [
+hjapp.controller('controller2', [
     '$scope', function($scope) {
-        $scope.message = "HOTJAR";
+        $scope.message = 'hello'; //$routeParams.user;
     }
 ]);
