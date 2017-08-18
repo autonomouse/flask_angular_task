@@ -1,16 +1,16 @@
-var hjapp = angular.module('HjApp.admin', ['ngRoute'])
+var hjapp = angular.module('HjApp.admin', ['ngRoute', 'UserService'])
 
 hjapp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-        .when('/:user', {
+        .when('/', {
             templateUrl: 'static/admin/admin.html',
             controller: 'controller',
             controllerAs:'controller'
         })
 }]);
 
-hjapp.controller('controller2', [
+hjapp.controller('controller', [
     '$scope', function($scope) {
-        $scope.message = 'hello'; //$routeParams.user;
+        $scope.users = UserService.query();
     }
 ]);
