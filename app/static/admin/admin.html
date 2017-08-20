@@ -1,4 +1,3 @@
-
 <div class="jumbotron">
     <h1>Admin</h1>
     <table class="table">
@@ -24,13 +23,10 @@
             <td>{$ user.address $}</td>
             <td>{$ user.gender $}</td>
             <td>{$ user.book.title $} <span ng-show="user.book.title">({$ user.book.title $})</span></td>
-            <td><span ng-repeat="color in user.colors track by $index">
-                {$ $first ? '' : $last ? ' and ' : ', ' $}{$ color.color $}
-            </span></td>
+            <td><span ng-repeat="color in user.colors track by $index">{$ $first ? '' : $last ? ' and ' : ', ' $}{$ color.color $}</span></td>
             <td>{$ user.survey_completed $}</td>
     </tbody>
     </table>
-
 
 
 <div class="jumbotron">
@@ -46,8 +42,9 @@
     <tbody>
         <tr>
         <td>{$ summary.age $}</td>
-        <td>{$ summary.gender $}</td>
-        <td>{$ summary.colors $}</td>
+        <td><span ng-repeat="gender in summary.gender track by $index">{$ gender[0] $}{$ $last ? '' : ':' $}</span>
+        <span ng-repeat="gender in summary.gender track by $index">{$ gender[1] $}{$ $last ? '' : ':' $}</span></td>
+        <td><span ng-repeat="color in summary.colors track by $index">{$ $first ? '' : $last ? ' and ' : ', ' $}{$ color[0] $} ({$ color[1] $})</span></td>
         </tr>
     </tbody>
     </table>
