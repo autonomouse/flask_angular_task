@@ -17,17 +17,17 @@
     </thead>
     <tbody>
         <tr ng-repeat="user in users track by $index">
-            <td>{$user.name $}</td>
-            <td>{$user.email $}</td>
-            <td>{$user.age $}</td>
-            <td>{$user.about_me $}</td>
-            <td>{$user.address $}</td>
-            <td>{$user.gender.value $}</td>
-            <td>{$user.favourite_book $}</td>
+            <td>{$ user.name $}</td>
+            <td>{$ user.email $}</td>
+            <td>{$ user.age $}</td>
+            <td>{$ user.about_me $}</td>
+            <td>{$ user.address $}</td>
+            <td>{$ user.gender $}</td>
+            <td>{$ user.book.title $} <span ng-show="user.book.title">({$ user.book.title $})</span></td>
             <td><span ng-repeat="color in user.colors track by $index">
                 {$ $first ? '' : $last ? ' and ' : ', ' $}{$ color.color $}
             </span></td>
-            <td>{$user.survey_completed $}</td>
+            <td>{$ user.survey_completed $}</td>
     </tbody>
     </table>
 
