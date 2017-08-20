@@ -1,6 +1,3 @@
-import statistics
-from collections import Counter
-
 from sqlalchemy.exc import IntegrityError
 from flask import render_template, flash, redirect
 
@@ -81,40 +78,10 @@ def survey():
         title='Home',
         form=form)
 
+
 @app.route('/admin')
 def admin():
     return render_template("index.html")
-
-'''
-@app.route('/admin')
-def admin():
-    ages = []
-    sexes = []
-    colors = []
-    users = models.User.query.all()
-    for user in users:
-        ages.append(int(user.age))
-        sexes.append(user.gender.value)
-        colors.extend([str(col.color) for col in user.colors])
-        books = db.session.query(models.Favbook).filter(
-            models.Favbook.id == user.favbook_id)
-        if books.count():
-            book = books.first()
-            user.favourite_book = book.title
-            if book.author != "":
-                user.favourite_book += "(" + book.author + ")"
-    mean_age = statistics.mean(ages) if ages else None
-    stdev_age = statistics.stdev(ages) if len(ages) > 2 else 0
-    summary = {'age': mean_age,
-               'age_stdev': stdev_age,
-               'gender': Counter(sexes),
-               'colors': Counter(colors).most_common(3)}
-    return render_template(
-        "admin.html",
-        title='Home',
-        users=users,
-        summary=summary)
-'''
 
 
 def output_colors(colors):
@@ -156,7 +123,8 @@ class UserView(Resource):
         if not users:
             return
         for user in users:
-            user.book = db.session.query(models.Favbook).filter_by(id=user.favbook_id).first()
+            user.book = db.session.query(models.Favbook).filter_by(
+                id=user.favbook_id).first()
         return serializers.UserSerializer(users, many=True).data
 
 
