@@ -9,6 +9,6 @@ hjapp.config(['$routeProvider', function($routeProvider) {
 
 hjapp.controller('controller', [
     '$scope', 'UserService', function($scope, UserService) {
-        $scope.user = UserService.query();
+        $scope.users = UserService.query();
     }
 ]);

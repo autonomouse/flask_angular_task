@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="user in users">
+        <tr ng-repeat="user in users track by $index">
             <td>{$user.name $}</td>
             <td>{$user.email $}</td>
             <td>{$user.age $}</td>
@@ -24,20 +24,12 @@
             <td>{$user.address $}</td>
             <td>{$user.gender.value $}</td>
             <td>{$user.favourite_book $}</td>
-            <td>{$user.colors|join(', ', attribute='color') $}</td>
+            <td><span ng-repeat="color in user.colors track by $index">
+                {$ $first ? '' : $last ? ' and ' : ', ' $}{$ color.color $}
+            </span></td>
             <td>{$user.survey_completed $}</td>
-        </tr>
     </tbody>
     </table>
-</div>
-
-{$ user $}
-
-<br/>
-
-
-{$ users $}
-
 
 
 
