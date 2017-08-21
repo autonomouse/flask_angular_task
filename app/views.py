@@ -56,7 +56,6 @@ def survey1():
             user = models.User(name=name, email=email)
             db.session.add(user)
             db.session.commit()
-            flash('Thanks!')
             response = make_response(redirect(url_for('survey2')))
             response.set_cookie('name', name)
             response.set_cookie('email', email)
@@ -114,7 +113,8 @@ def survey3():
     return render_template(
         "survey_address_gender.html",
         title='Survey - page ' + page,
-        form=form)
+        form=form,
+        previous='/survey_back/')
 
 
 @app.route('/survey4', methods=['GET', 'POST'], strict_slashes=False)
@@ -155,7 +155,19 @@ def survey4():
     return render_template(
         "survey_book_colors.html",
         title='Survey - page ' + page,
-        form=form)
+        form=form,
+        previous='/survey_back/')
+
+
+@app.route('/survey_back', methods=['GET', 'POST'], strict_slashes=False)
+def survey_back():
+    progress = request.cookies.get("progress")
+    if int(progress) <= 2:
+        return make_response(redirect(url_for('survey' + progress)))
+    back_to_page = str(int(progress) - 1)
+    response = make_response(redirect(url_for('survey' + back_to_page)))
+    response.set_cookie('progress', back_to_page)
+    return response
 
 
 @app.route('/survey_completed', strict_slashes=False)

@@ -8,7 +8,12 @@
         Address: {{ form.address }}<br>
         Gender: {{ form.gender }}<br>
       </p>
-      <p><input type="submit" value="Submit"></p>
+      <p><input type="submit" value="NEXT"></p>
   </form>
+    
+  <form method="post" action="{{ previous }}">
+    <p><input type="submit" value="PREVIOUS"></p>
+  </form>
+
 {% endblock %}
 

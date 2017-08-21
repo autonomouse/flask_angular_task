@@ -8,7 +8,12 @@
         Favourite book: {{ form.book_title }} by {{ form.book_author }}<br>
         Favourite colour(s): {{ form.colors }}
       </p>
-      <p><input type="submit" value="Submit"></p>
+      <p><input type="submit" value="NEXT"></p>
   </form>
+
+  <form method="post" action="{{ previous }}">
+    <p><input type="submit" value="PREVIOUS"></p>
+  </form>
+
 {% endblock %}
 
