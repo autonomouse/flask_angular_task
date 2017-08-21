@@ -1,0 +1,51 @@
+<div class="jumbotron">
+    <h1>Admin</h1>
+    <table class="table">
+    <thead>
+        <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>About me</th>
+        <th>Address</th>
+        <th>Gender</th>
+        <th>Favourite Book</th>
+        <th>Favourite Colors</th>
+        <th>Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="user in users track by $index">
+            <td>{$ user.name $}</td>
+            <td>{$ user.email $}</td>
+            <td>{$ user.age $}</td>
+            <td>{$ user.about_me $}</td>
+            <td>{$ user.address $}</td>
+            <td>{$ user.gender $}</td>
+            <td>{$ user.book.title $} <span ng-show="user.book.title">({$ user.book.author $})</span></td>
+            <td><span ng-repeat="color in user.colors track by $index">{$ $first ? '' : $last ? ' and ' : ', ' $}{$ color.color $}</span></td>
+            <td>{$ user.survey_completed $}</td>
+    </tbody>
+    </table>
+
+
+<div class="jumbotron">
+    <h2>Summary of Responses</h2>
+    <table class="table">
+    <thead>
+        <tr>
+        <th>Average Age</th>
+        <th>Gender Ratio</th>
+        <th>Top 3 Colors</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>{$ summary.age $}</td>
+        <td><span ng-repeat="gender in summary.gender track by $index">{$ gender[0] $}{$ $last ? '' : ':' $}</span>
+        <span ng-repeat="gender in summary.gender track by $index">{$ gender[1] $}{$ $last ? '' : ':' $}</span></td>
+        <td><span ng-repeat="color in summary.colors track by $index">{$ $first ? '' : $last ? ' and ' : ', ' $}{$ color[0] $} ({$ color[1] $})</span></td>
+        </tr>
+    </tbody>
+    </table>
+</div>
