@@ -1,16 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Title</h1>
+  <h2>{{ title }}</h2>
   <form action="" method="post" name="survey">
       {{ form.hidden_tag() }}
       <p>
-        Name:{{ form.name(size=128) }}<br>
-        Email: {{ form.email }}<br>
-        Age: {{ form.age }}<br>
-        Gender: {{ form.gender }}<br>
-        About:<br> {{ form.about_me(rows="7") }}<br>
-        Address: {{ form.address }}<br>
         Favourite book: {{ form.book_title }} by {{ form.book_author }}<br>
         Favourite colour(s): {{ form.colors }}
       </p>

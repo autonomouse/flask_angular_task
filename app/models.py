@@ -11,7 +11,9 @@ user_colors = db.Table(
 
 age_start = 18
 age_end = 120
-gender_choices = [('0', 'Male'), ('1', 'Female')]
+gender_choices = [('0', 'Undisclosed'),
+                  ('1', 'Male'),
+                  ('2', 'Female')]
 color_choices = [('0', 'Red'),
                  ('1', 'Orange'),
                  ('2', 'Yellow'),

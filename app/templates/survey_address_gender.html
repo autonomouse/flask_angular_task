@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ title }}</h2>
+  <form action="" method="post" name="survey">
+      {{ form.hidden_tag() }}
+      <p>
+        Address: {{ form.address }}<br>
+        Gender: {{ form.gender }}<br>
+      </p>
+      <p><input type="submit" value="Submit"></p>
+  </form>
+{% endblock %}
+
