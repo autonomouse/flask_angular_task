@@ -2,10 +2,10 @@ Make sure you have postgres and python3 installed before you start.
 
 To install dependecies, run `$ ./do.py deps install`.
 
-Run `$ sudo su postgres` and create the database first, via: `$ createdb hjtask`.
+Run the following to create the database: `$sudo su postgres createdb hjtask`.
+
+Then create the user: `$ sudo -u postgres createuser <username>`.
 
 Then exist from the postgres suer and run `$ ./do.py db create` to set everything up.
 
 After that, you can run the test server via: `$ ./do.py run`.
-
-Tests can be run using: `$ do.py test`.
