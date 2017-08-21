@@ -123,6 +123,15 @@ class TaskBase():
             os.makedirs(directory)
 
     def install_deps(self):
+        self.install_python_deps()
+        self.install_js_deps()
+
+    def install_python_deps(self):
+        check_call([
+            "pip3", "install", "--user", "flask-socketio", "flask-sqlalchemy",
+            "sqlalchemy-migrate", "flask-wtf", "flask-restplus", "colour"])
+
+    def install_js_deps(self):
         directory = app.config['STATIC_DIR']
         self.mkdir_p(directory)
         check_call([
