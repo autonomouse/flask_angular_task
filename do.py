@@ -53,6 +53,9 @@ class TaskBase():
     def db_create(self):
         """ https://blog.miguelgrinberg.com/post/
             the-flask-mega-tutorial-part-iv-database
+
+            N.B. You will need to have `$ sudo su postgres` and run
+            `$ createdb hjtask` first.
         """
 
         db.create_all()
@@ -129,7 +132,8 @@ class TaskBase():
     def install_python_deps(self):
         check_call([
             "pip3", "install", "--user", "flask-socketio", "flask-sqlalchemy",
-            "sqlalchemy-migrate", "flask-wtf", "flask-restplus", "colour"])
+            "sqlalchemy-migrate", "flask-wtf", "flask-restplus", "colour",
+            "psycopg2"])
 
     def install_js_deps(self):
         directory = app.config['STATIC_DIR']
