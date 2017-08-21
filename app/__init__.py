@@ -4,14 +4,29 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flask_restful import Api
 
-# flask
-app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
 
-# flask-sqlalchemy
-app.config.from_object('config')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+def create_app(config_name=None):
+
+    # flask
+    app = Flask(__name__)
+    if config_name:
+        app.config.from_object(config_name)
+    else:
+        app.config.from_object(os.environ['APP_SETTINGS'])
+
+    # flask-sqlalchemy
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # database
+    db = SQLAlchemy(app)
+    db.init_app(app)
+
+    return app
+
+
+app = create_app()
 db = SQLAlchemy(app)
+
 
 # flask-restful
 api = Api(app)

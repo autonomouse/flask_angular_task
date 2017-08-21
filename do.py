@@ -133,7 +133,7 @@ class TaskBase():
         check_call([
             "pip3", "install", "--user", "flask-socketio", "flask-sqlalchemy",
             "sqlalchemy-migrate", "flask-wtf", "flask-restplus", "colour",
-            "psycopg2"])
+            "psycopg2", "pytest"])
 
     def install_js_deps(self):
         directory = app.config['STATIC_DIR']
@@ -176,6 +176,10 @@ class Tasks(TaskBase):
             msg = "'{}' is not a recognised deps action. Actions are: {}"
             raise Exception(msg.format(action, ", ".join(switch.keys())))
         switch.get(action)()
+
+    def test(self):
+        """ Make sure you are running the server in a different terminal """
+        check_call(["python3", "-m", "pytest"])
 
 
 if __name__ == "__main__":

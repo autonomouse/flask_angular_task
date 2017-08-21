@@ -5,3 +5,5 @@ Run `$ sudo su postgres` and create the database first, via: `$ createdb hjtask`
 Then exist from the postgres suer and run `$ ./do.py db create` to set everything up.
 
 After that, you can run the test server via: `$ ./do.py run`.
+
+Tests can be run using: `$ do.py test`.

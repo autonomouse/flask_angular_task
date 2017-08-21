@@ -29,3 +29,8 @@ class StagingConfig(Config):
 class ProductionConfig(Config):
     DEVELOPMENT = False
     DEBUG = False
+
+
+class TestingConfig(Config):
+    DEVELOPMENT = False
+    DEBUG = False
