@@ -136,7 +136,7 @@ class TaskBase():
         check_call([
             "pip3", "install", "--user", "flask-socketio", "flask-sqlalchemy",
             "sqlalchemy-migrate", "flask-wtf", "flask-restful", "colour",
-            "psycopg2", "pytest"])
+            "psycopg2", "pytest", "sqlalchemy-utils", "marshmallow==0.7.0"])
 
     def install_js_deps(self):
         directory = app.config['STATIC_DIR']
