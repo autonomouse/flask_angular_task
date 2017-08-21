@@ -19,8 +19,8 @@
             <td>{$ user.name $}</td>
             <td>{$ user.email $}</td>
             <td>{$ user.age $}</td>
-            <td>{$ user.about_me $}</td>
-            <td>{$ user.address $}</td>
+            <td>{$ user.about_me | limitTo: 20 $}{$ user.about_me.length > 20 ? '...' : '' $}</td>
+            <td>{$ user.address | limitTo: 20  $}{$ user.address.length > 20 ? '...' : '' $}</td>
             <td>{$ user.gender $}</td>
             <td>{$ user.book.title $} <span ng-show="user.book.title">({$ user.book.author $})</span></td>
             <td><span ng-repeat="color in user.colors track by $index">{$ $first ? '' : $last ? ' and ' : ', ' $}{$ color.color $}</span></td>

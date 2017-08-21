@@ -1,10 +1,11 @@
 from sqlalchemy.exc import IntegrityError
-from flask import make_response, render_template, flash, redirect, request, url_for
-
+from flask import (
+    make_response, render_template, flash, redirect, request, url_for)
 from app import app, api
 from . import forms
 from . import models, db, serializers
 from flask_restful import Resource
+
 
 @app.route('/')
 @app.route('/index')
@@ -23,6 +24,7 @@ def get_existing_user():
         flash(errmsg)
         raise Exception(errmsg)
     return user
+
 
 def form_check(page, form, completed_at_page='5'):
     if form.is_submitted():
@@ -173,13 +175,13 @@ def survey_back():
 @app.route('/survey_completed', strict_slashes=False)
 def survey_completed():
     return render_template("survey_completed.html",
-                        title="Survey complete. Thanks!")
+                           title="Survey complete. Thanks!")
 
 
 @app.route('/survey_already_done', strict_slashes=False)
 def survey_already_done():
     return render_template("survey_completed.html",
-                        title="Survey already submitted.")
+                           title="Survey already submitted.")
 
 
 @app.route('/admin')
