@@ -6,9 +6,12 @@ import argparse
 
 from subprocess import check_call, check_output
 
-from migrate.versioning import api
-os.environ["APP_SETTINGS"] = "config.DevelopmentConfig"
-from app import app, db
+try:
+    from migrate.versioning import api
+    os.environ["APP_SETTINGS"] = "config.DevelopmentConfig"
+    from app import app, db
+except ImportError:
+    print("You'll need to run `$ ./do.py deps install` if you're not already")
 
 
 def main():
