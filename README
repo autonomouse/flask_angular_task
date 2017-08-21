@@ -1,5 +1,7 @@
 Make sure you have postgres and python3 installed before you start.
 
+To install dependecies, run `$ ./do.py deps python` and `$ ./do.py deps javascript`.
+
 Run `$ sudo su postgres` and create the database first, via: `$ createdb hjtask`.
 
 Then exist from the postgres suer and run `$ ./do.py db create` to set everything up.

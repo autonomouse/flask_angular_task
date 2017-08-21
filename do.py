@@ -11,7 +11,7 @@ try:
     os.environ["APP_SETTINGS"] = "config.DevelopmentConfig"
     from app import app, db
 except ImportError:
-    print("You'll need to run `$ ./do.py deps install` if you're not already")
+    print("You'll need to run `$ ./do.py deps python` if you're not already")
 
 
 def main():
@@ -128,10 +128,6 @@ class TaskBase():
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    def install_deps(self):
-        self.install_python_deps()
-        self.install_js_deps()
-
     def install_python_deps(self):
         check_call([
             "pip3", "install", "--user", "flask-socketio", "flask-sqlalchemy",
@@ -173,7 +169,8 @@ class Tasks(TaskBase):
         """ Dependency actions. """
 
         switch = {
-            "install": self.install_deps,
+            "python": self.install_python_deps,
+            "javascript": self.install_js_deps,
         }
         if action not in switch.keys():
             msg = "'{}' is not a recognised deps action. Actions are: {}"
