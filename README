@@ -8,4 +8,18 @@ Then create the user: `$ sudo -u postgres createuser <username>`.
 
 Then exist from the postgres suer and run `$ ./do.py db create` to set everything up.
 
-After that, you can run the test server via: `$ ./do.py run`.
+After that, you can run the test server via: `$ ./do.py run`
+
+---
+
+
+### Big list of caveats
+
+* I know, I know, using angular to make a call every X seconds to simulate "near real-time" updates is mega-hacky. What I wanted to do was to go away and learn websockets, but as I had to go away and learn flask, sqlalchemy and associated flask API libs, I didn't leave myself enough time to learn to use socketio or somethign similar (sorry). Spamming the server with requests like this I guess is only acceptable if a small number of people are using the site, so I might even get away with it if we pretend the requirementts were for an internal admin site...
+* I ended up mixing flask/jinja2 templated HTML (survey pages) with Angular (admin pages). This was simply because I made it in flask first then added angular on top, so that if it all fell apart, I would have something that works to fall back on and so I could learn flask properly first. Again, I would preferred a more consistent approach, but I didn't have time.
+* Time: I was allocated three consecutive days to do this. It took me two weeks to return something to you. I didn't spend the whole two weeks working on this - I had actually allocated three days to do this, but I wasn't expecting to have to use Flask, so I used up that time learning the basics and then I returned to the task once I was more comfortable. Unfortunately this meant I had to fit it in and around lots of other interviews and tests for interviews. In total, I probably spent three and a half days working on it, if I'm honest.
+* I have done nothing to limit the length of the about_me or address fields. That would need doing if this was done for real.
+* Also, very importantly, there is absolutely no authentication or permissions for the API. Bit naughty, but no one asked for them and I ran out of time :-/
+* The tests are dire - well, the test. I only really added one - Also the infrastructure behind it kinda means you need to wipe the DB and start again. Not good. I was hoping to implement some kind of TDD for tis, but that doesn't work so well when you haven't learned how to use the technologies yet! I should have left more time for tests. Next time!
+
+
